@@ -9,7 +9,7 @@ namespace alfasoft.bitbucketUsers.Console
 {
     class Program
     {
-        private static async Task ProcessUser(string userName)
+        private static async Task GetUserInformation(string userName)
         {
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri("https://api.bitbucket.org/2.0/users/");
@@ -43,7 +43,7 @@ namespace alfasoft.bitbucketUsers.Console
                 }
             }
 
-            var LastModified = File.GetLastWriteTime("/home/rennerlopes/Documents/Desafio Alfa soft/alfasoft.bitbucketUsers.Console/log.txt");
+            var LastModified = File.GetLastWriteTime(Path.GetFullPath("log.txt"));
 
             if ((DateTime.Now - LastModified).TotalMilliseconds < 60000)
             {
@@ -56,9 +56,11 @@ namespace alfasoft.bitbucketUsers.Console
                 foreach (string user in users)
                 {
                     await Task.Delay(5000);
-                    await ProcessUser("70121:93728290-0f7b-4881-8bf2-896faefd398d");
+                    await GetUserInformation("70121:93728290-0f7b-4881-8bf2-896faefd398d");
                 }
             });
+
+            await Task.Delay(5000);
         }
     }
 }
