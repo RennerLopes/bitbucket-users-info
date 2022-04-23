@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace alfasoft.bitbucketUsers.Console
 {
@@ -6,7 +8,20 @@ namespace alfasoft.bitbucketUsers.Console
     {
         static void Main(string[] args)
         {
-            System.Console.WriteLine("Hello World!");
+            string path;
+            List<string> users = new List<string>();
+
+            System.Console.WriteLine("Enter the full path file: ");
+            path = System.Console.ReadLine();
+
+            using (StreamReader sr = File.OpenText(path))
+            {
+                string user;
+                while ((user = sr.ReadLine()) != null)
+                {
+                    users.Add(user);
+                }
+            }
         }
     }
 }
