@@ -15,7 +15,7 @@ namespace alfasoft.bitbucketUsers.Console
             client.BaseAddress = new Uri("https://api.bitbucket.org/2.0/users/");
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(
-        new MediaTypeWithQualityHeaderValue("application/json"));
+            new MediaTypeWithQualityHeaderValue("application/json"));
 
             var stringTask = client.GetStringAsync(userName);
             var msg = await stringTask;
@@ -41,6 +41,14 @@ namespace alfasoft.bitbucketUsers.Console
                 {
                     users.Add(user);
                 }
+            }
+
+            var LastModified = File.GetLastWriteTime("/home/rennerlopes/Documents/Desafio Alfa soft/alfasoft.bitbucketUsers.Console/log.txt");
+
+            if ((DateTime.Now - LastModified).TotalMilliseconds < 60000)
+            {
+                System.Console.Write("The program cannot make requests to the API because its last run is less than 60 seconds");
+                Environment.Exit(0);
             }
 
             await Task.Run(async () =>
