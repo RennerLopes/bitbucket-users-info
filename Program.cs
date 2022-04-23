@@ -34,6 +34,12 @@ namespace alfasoft.bitbucketUsers.Console
             System.Console.WriteLine("Enter the full path file: ");
             path = System.Console.ReadLine();
 
+            while (!File.Exists(path))
+            {
+                System.Console.WriteLine("Cound not find File, please enter an existing file path: ");
+                path = System.Console.ReadLine();
+            }
+
             using (StreamReader sr = File.OpenText(path))
             {
                 string user;
