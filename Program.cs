@@ -9,7 +9,6 @@ namespace alfasoft.bitbucketUsers.Console
 {
     class Program
     {
-
         private static async Task ProcessUser(string userName)
         {
             HttpClient client = new HttpClient();
@@ -20,6 +19,7 @@ namespace alfasoft.bitbucketUsers.Console
 
             var stringTask = client.GetStringAsync(userName);
             var msg = await stringTask;
+            Logger.WriteLog(msg);
             System.Console.Write("user: " + userName + "\n");
             System.Console.Write("url: " + client.BaseAddress + userName + "\n");
             System.Console.Write("Output: \n" + msg + "\n\n");
