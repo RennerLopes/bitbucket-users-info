@@ -1,12 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
 namespace alfasoft.bitbucketUsers.Console
 {
     class Program
     {
-        static void Main(string[] args)
+
+        private static async Task ProcessUser(string userName)
+        {
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("https://api.bitbucket.org/2.0/users/");
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(
+        new MediaTypeWithQualityHeaderValue("application/json"));
+
+            var stringTask = client.GetStringAsync(userName);
+            var msg = await stringTask;
+            System.Console.Write("user: " + userName + "\n");
+            System.Console.Write("url: " + client.BaseAddress + userName + "\n");
+            System.Console.Write("Output: \n" + msg + "\n\n");
+            client.Dispose();
+        }
+
+        static async Task Main(string[] args)
         {
             string path;
             List<string> users = new List<string>();
@@ -22,6 +42,15 @@ namespace alfasoft.bitbucketUsers.Console
                     users.Add(user);
                 }
             }
+
+            await Task.Run(async () =>
+            {
+                foreach (string user in users)
+                {
+                    await Task.Delay(5000);
+                    await ProcessUser("70121:93728290-0f7b-4881-8bf2-896faefd398d");
+                }
+            });
         }
     }
 }
